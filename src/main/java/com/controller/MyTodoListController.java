@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,15 +23,22 @@ public class MyTodoListController {
 	MyTodoListMapper myTodoListMapper;
 	
 	 @GetMapping(value="")
-	    public String index(Model model) {
+	    public String index(@ModelAttribute MMyTodoList myTodoList, Model model) {
 	        List<MMyTodoList> list = myTodoListMapper.selectAll();
 	        model.addAttribute("todos",list);
+	        model.addAttribute("myTodoList", myTodoList);
 	        return "index";
 	    }
 	 
 	 @PostMapping(value="add")
-	 	public String add(MMyTodoList myTodoList) {
+	 	public String add(@ModelAttribute @Validated MMyTodoList myTodoList, BindingResult bindingResult, Model model) {
+		 model.addAttribute("myTodoList", myTodoList);
+		 if (bindingResult.hasErrors()) {
+			 System.out.println("Error occured!");
+			 return "index";
+		 }
 		 myTodoListMapper.add(myTodoList);
+		 
 		 return "redirect:/";
 	 }
 	 

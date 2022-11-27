@@ -13,9 +13,11 @@
 			<h1 class="title">To Do List</h1>
 			
 			<h3>New Tasks</h3>
-				<form method="post" th:action="@{/add}">
-					<input type="text" name="title">
+				<form method="post" th:action="@{/add}" th:object="${myTodoList}">
+					<input type="text" name="title" th:field="*{title}" th:errorclass="is-invalid">
+					<span th:errors="*{title}"></span>
 					<input type="submit" value="Add" >
+				
 				
 				</form> 
 			<h3>Mytasks</h3>
