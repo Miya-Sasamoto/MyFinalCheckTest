@@ -11,7 +11,26 @@
 	<div class="content_box">
 		<div class="list_parent"> 
 			<h1 class="title">To Do List</h1>
+			
+			<h3>New Tasks</h3>
+				<form method="post" th:action="@{/add}">
+					<input type="text" name="title">
+					<input type="submit" value="Add" >
+				
+				</form> 
+			<h3>Mytasks</h3>
+				<form method="post" th:action="@{/update}" th:each="todo : ${todos}" >
+				 	<input type="checkbox"name="doneFlg" th:checked="${todo.doneFlg}"/>
+	   			 	<input type="hidden" name="id" th:value="${todo.id}" />
+	    			<input type="text" name="title" th:value="${todo.title}" />
+	    			<button type="submit" name="update">Update</button>
+	    			<button type="submit" name="delete">Delete</button>
+  				</form>
+			
 		</div>
 	</div>
 </body>
 </html>
+
+
+  
