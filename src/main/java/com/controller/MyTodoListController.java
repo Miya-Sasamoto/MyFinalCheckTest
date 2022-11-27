@@ -30,11 +30,12 @@ public class MyTodoListController {
 	        return "index";
 	    }
 	 
-	 @PostMapping(value="add")
-	 	public String add(@ModelAttribute @Validated MMyTodoList myTodoList, BindingResult bindingResult, Model model) {
+	 @PostMapping(value="", params = "add")
+	 	public String add(@ModelAttribute("myTodoList") @Validated MMyTodoList myTodoList, BindingResult bindingResult, Model model) {
 		 model.addAttribute("myTodoList", myTodoList);
 		 if (bindingResult.hasErrors()) {
-			 System.out.println("Error occured!");
+		     List<MMyTodoList> list = myTodoListMapper.selectAll();
+		     model.addAttribute("todos",list);
 			 return "index";
 		 }
 		 myTodoListMapper.add(myTodoList);
@@ -42,14 +43,14 @@ public class MyTodoListController {
 		 return "redirect:/";
 	 }
 	 
-	 @PostMapping(value="update", params = "update")
+	 @PostMapping(value="", params = "update")
 	    public String update(MMyTodoList myTodoList) {
 		 myTodoListMapper.update(myTodoList);
 	        return "redirect:/";
 	    }
 	 
 	 //@DeleteMapping(value="delete/{id:.+}" )
-	 @PostMapping(value = "update", params = "delete")
+	 @PostMapping(value = "", params = "delete")
 	    public String delete(MMyTodoList myTodoList) {
 		 myTodoListMapper.delete(myTodoList);
 	        return "redirect:/";

@@ -22,3 +22,7 @@ h1{
   font-size: 60px;
   color:#2d2d2d;
 }
+
+.validation_error{
+	color:red;
+}
